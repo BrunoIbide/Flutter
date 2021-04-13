@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+
+void main() async {
+  runApp(MaterialApp(
+    theme: ThemeData(
+       
+        brightness: Brightness.dark,
+        primaryColor: Color(0xFFF44336),
+        fontFamily: 'Raleway',
+      ),
+    home: Home(),
+  ));
+}
+
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final litros = TextEditingController();
+  final double valorEtanol = 3.50;
+  final double valorGasolina = 4.30;
+  String valorPagarEtanol = "0.00";
+  String valorPagarGasolina = "0.00";
+  String compensa = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Calculo Combustivel"),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Text("Digite o valor: ",
+             style: TextStyle(fontSize: 15, fontFamily: 'RobotoMono', fontWeight: FontWeight.bold,)),
+            SizedBox(
+              height: 20.0,
+            ),
+            TextField(
+                controller: litros,
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Digite a quantidade de Litros',
+                  focusedBorder: OutlineInputBorder( borderSide: BorderSide(
+          color: Colors.red
+        ))
+                )),
+            SizedBox(
+              height: 20.0,
+            ),
+            FlatButton(
+              child: Text("Calcular"),
+              color: Colors.red,
+              splashColor: Colors.yellow,
+              onPressed: () {
+                setState(() {
+                  final resultadoEtanol =
+                      double.parse(litros.text) * double.parse("$valorEtanol");
+                  valorPagarEtanol = "$resultadoEtanol";
+                });
+                setState(() {
+                  final resultadoGasolina = double.parse(litros.text) *
+                      double.parse("$valorGasolina");
+                  valorPagarGasolina = "$resultadoGasolina";
+                });
+                setState(() {
+                  final resultadoCompensa = double.parse("$valorEtanol") /
+                      double.parse("$valorGasolina");
+                  compensa = "$resultadoCompensa";
+                });
+              },
+              textColor: Colors.white,
+            ),
+            SizedBox(
+              height: 15.0,
+            ),
+            Text("Valor do Etanol: R\$ $valorPagarEtanol",
+                style: TextStyle(fontSize: 15, fontFamily: 'RobotoMono')),
+            Text("Valor da Gasolina: R\$ $valorPagarGasolina",
+                style: TextStyle(fontSize: 15)),
+            Text("Combustível que mais vale a pena: $compensa",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
+          ],
+        ),
+      ),
+    );
+  }
+}
